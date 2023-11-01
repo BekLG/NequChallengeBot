@@ -1,0 +1,20 @@
+{
+  "name": "niku-challenge-bot",
+  "version": "1.0.0",
+  "description": "a telegram bot for a daily morning wakeup challenge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grammyjs/conversations": "^1.1.2",
+    "@grammyjs/runner": "^2.0.3",
+    "@grammyjs/storage-redis": "^2.4.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "grammy": "^1.19.2",
+    "ioredis": "^5.3.2"
+  }
+}
