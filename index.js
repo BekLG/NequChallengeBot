@@ -13,12 +13,29 @@ const  Calendar = require('telegram-inline-calendar');
 const bot = new Bot(process.env.BOT_TOKEN);
 
 
+
+bot.command('help', (ctx) => {
+    const helpMessage = `
+    Welcome to Niku challenge Bot! Here are the available commands:
+    - /start: Begin the setup process.
+    - /settime: Set or update your wake-up time.
+    - /checktime: Check your current wake-up time.
+    - /motivate: Receive a motivational message.
+    - /statistics: View your challenge statistics.
+  
+    `;
+    ctx.reply(helpMessage);
+  });
+  
+
+
+
 const calendar =new Calendar(bot, {
     date_format: 'HH:mm',
     language: 'en',
     bot_api: "grammy",
     time_range: "09:00-12:30",
-    time_step: "5m"
+    time_step: "15m"
 });
 
 
@@ -33,7 +50,7 @@ bot.on("callback_query:data", (ctx) => {
     }
 });
 
-bot.command('set', ctx => calendar.startTimeSelector(ctx))
+bot.command('settime', ctx => calendar.startTimeSelector(ctx))
 
 bot.command("start",(ctx)=> ctx.reply("hello there, i am niku bot"));
 
