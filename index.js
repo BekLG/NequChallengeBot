@@ -54,13 +54,14 @@ bot.on("callback_query:data", (ctx) => {
         res = calendar.clickButtonCalendar(ctx.update.callback_query);
         // console.log(ctx.update.callback_query);
         if (res !== -1) {
-            const selectedTime = res;
+            // converting to date format
+            const selectedTime = res; 
             const selectedTimeParts = selectedTime.split(':');
-  const hours = parseInt(selectedTimeParts[0]);
-  const minutes = parseInt(selectedTimeParts[1]);
-  const userWakeUpTime = new Date();
-  userWakeUpTime.setHours(hours);
-  userWakeUpTime.setMinutes(minutes);
+            const hours = parseInt(selectedTimeParts[0]);
+            const minutes = parseInt(selectedTimeParts[1]);
+            const userWakeUpTime = new Date();
+            userWakeUpTime.setHours(hours);
+            userWakeUpTime.setMinutes(minutes);
 
             ctx.session.wakeUpTime= userWakeUpTime;
             ctx.reply("You selected: " + res);
@@ -73,7 +74,15 @@ bot.on("callback_query:data", (ctx) => {
     }
 });
 
-bot.command('settime', ctx => calendar.startTimeSelector(ctx))
+bot.command('settime', ctx => calendar.startTimeSelector(ctx));
+
+bot.command('checktime', (ctx) =>
+    ctx.reply("you wake Up time is: "+ ctx.session.wakeUpTime.getHours()+ ":"+  ctx.session.wakeUpTime.getMinutes()+ " in Ethiopian time" )
+ );
+
+
+
+
 
 bot.command("start",(ctx)=> ctx.reply("hello there, i am niku bot"));
 
