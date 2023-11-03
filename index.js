@@ -19,7 +19,7 @@ bot.use(session({ initial: () => ({
     pointsEarned: 10, // Points Earned, initially 10
     successfulWakeUps: 0, // Successful Wake-Ups
     missedWakeUps: 0, // Missed Wake-Ups
-  }), storage }));
+  }) }));
 
 
 
@@ -54,7 +54,21 @@ bot.on("callback_query:data", (ctx) => {
         res = calendar.clickButtonCalendar(ctx.update.callback_query);
         // console.log(ctx.update.callback_query);
         if (res !== -1) {
+            const selectedTime = res;
+            const selectedTimeParts = selectedTime.split(':');
+  const hours = parseInt(selectedTimeParts[0]);
+  const minutes = parseInt(selectedTimeParts[1]);
+  const userWakeUpTime = new Date();
+  userWakeUpTime.setHours(hours);
+  userWakeUpTime.setMinutes(minutes);
+
+            ctx.session.wakeUpTime= userWakeUpTime;
             ctx.reply("You selected: " + res);
+            console.log("selected time: ", ctx.session.wakeUpTime);
+
+            console.log("time: ", ctx.session.wakeUpTime.getHours());
+            console.log("minute: ", ctx.session.wakeUpTime.getMinutes());
+
         }
     }
 });
