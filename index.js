@@ -23,7 +23,6 @@ bot.use(session({ initial: () => ({
   }) }));
 
 
-
 bot.command('help', (ctx) => {
     const helpMessage = `
     Welcome to Niku challenge Bot! Here are the available commands:
@@ -40,20 +39,12 @@ bot.command('help', (ctx) => {
 
 
 
-
-
-
-
-  
-
-
-
 const calendar =new Calendar(bot, {
     date_format: 'HH:mm',
     language: 'en',
     bot_api: "grammy",
-    time_range: "09:00-12:30",
-    time_step: "15m"
+    time_range: "01:50-2:30",
+    time_step: "1m"
 });
 
 
@@ -70,23 +61,29 @@ bot.on("callback_query:data", (ctx) => {
             const hours = parseInt(selectedTimeParts[0]);
             const minutes = parseInt(selectedTimeParts[1]);
 
-            // Create a Date object for Ethiopian time
-            const ethiopianTime = new Date(selectedTime);
-            ethiopianTime.setFullYear(new Date().getUTCFullYear()); // Set the year to the current year
-            ethiopianTime.setMonth(new Date().getUTCMonth()); // Set the month to the current month
-            ethiopianTime.setUTCMinutes(ethiopianTime.getUTCMinutes() + minutes);
-            ethiopianTime.setUTCHours(ethiopianTime.getUTCHours() + hours);
+            const wakeupTime = new Date();
+            wakeupTime.setHours(hours);
+            wakeupTime.setMinutes(minutes);
+
+            ctx.session.wakeUpTime = wakeupTime;
+
+            // // Create a Date object for Ethiopian time
+            // const ethiopianTime = new Date(selectedTime);
+            // ethiopianTime.setFullYear(new Date().getUTCFullYear()); // Set the year to the current year
+            // ethiopianTime.setMonth(new Date().getUTCMonth()); // Set the month to the current month
+            // ethiopianTime.setUTCMinutes(ethiopianTime.getUTCMinutes() + minutes);
+            // ethiopianTime.setUTCHours(ethiopianTime.getUTCHours() + hours);
 
             // Convert Ethiopian time to UTC
-            const utcTime = new Date(ethiopianTime.getTime() - ethiopianTime.getTimezoneOffset() * 60000);
+            // const utcTime = new Date(ethiopianTime.getTime() - ethiopianTime.getTimezoneOffset() * 60000);
 
             // Store the UTC time in the session
-            ctx.session.wakeUpTime = utcTime;
+            // ctx.session.wakeUpTime = utcTime;
 
             // Reply to the user with the selected time
             ctx.reply("You selected: " + res);
-            console.log("Selected time (Ethiopian time):", ethiopianTime);
-            console.log("Selected time (UTC time):", utcTime.toISOString());
+            // console.log("Selected time (Ethiopian time):", ethiopianTime);
+            console.log("Selected time:", wakeupTime.toTimeString());
 
             setInterval(() => checkAndTriggerWakeUp(ctx), 60 * 1000);
 
