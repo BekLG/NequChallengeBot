@@ -67,8 +67,9 @@ bot.command('help', (ctx) => {
 
 
 bot.command("start",(ctx)=> {
-    // setInterval(() => checkAndTriggerWakeUp(ctx, bot), 60 * 1000); // check the time every minute.
-    setInterval(() => checkAndTriggerWakeUp(ctx, bot), 60 * 100); // for dev mode.
+    checkAndTriggerWakeUp(ctx, bot); //check immediately, for the first time
+    setInterval(() => checkAndTriggerWakeUp(ctx, bot), 60 * 1000); // check the time every minute.
+
 
     ctx.reply("hello there, i am niku bot");
 } )
