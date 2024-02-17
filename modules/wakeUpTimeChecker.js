@@ -1,5 +1,5 @@
 const {InlineKeyboard } = require("grammy");
-// const {AskQuestions}= require('') // import ask questions function
+const askQuestions= require('./askQuestions') // import ask questions function
 
 const inlineKeyboard = new InlineKeyboard()
   .text("Yes!", "AskQuestions");
@@ -11,16 +11,22 @@ function checkAndTriggerWakeUp(ctx, bot) {
      /////// call back query
      bot.callbackQuery('AskQuestions', (ctx) => {
         console.log("inside AskQuestions");
-        ctx.reply("here are 5 questions to prove that you are awake.");
+        ctx.reply("here are 5 MATHS questions to prove that you are awake.");
+        askQuestions(ctx, bot);
+
+
         });
 
     // Get the current UTC time
     console.log("checkAndTriggerWakeUp started");
-// Get the current time as a JavaScript Date object
 
+
+
+
+// Get the current time as a JavaScript Date object
 const currentTime = new Date();
 
-    const wakeUpTime = "10:21";
+    const wakeUpTime = "11:51";
 
 
 
@@ -46,9 +52,6 @@ const currentTime = new Date();
         console.log("current time:", currentTime.getHours(),":", currentTime.getMinutes() ,"saved time:  ",userWakeUpTime.getHours(), ":", userWakeUpTime.getMinutes());
     }
 }
-
-
-
 
 
 module.exports = {checkAndTriggerWakeUp};
