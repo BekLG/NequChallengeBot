@@ -16,7 +16,6 @@ const bot = new Bot(process.env.BOT_TOKEN);
 
 bot.use(session({ initial: () => ({ 
     id: "", // User ID
-    wakeUpTime: "", // User's Chosen Wake-Up Time
     pointsEarned: 10, // Points Earned, initially 10
     successfulWakeUps: 0, // Successful Wake-Ups
     missedWakeUps: 0, // Missed Wake-Ups
