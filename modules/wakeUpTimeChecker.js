@@ -20,14 +20,20 @@ function checkAndTriggerWakeUp(ctx, bot) {
 
 const currentTime = new Date();
 
-    //user's UTC wake-up time stored in the session
-    const savedUserWakeUpTime = ctx.session.wakeUpTime;
+    const wakeUpTime = "10:21";
 
-    // Convert the saved time string to a JavaScript Date object
-const userWakeUpTime = new Date(savedUserWakeUpTime);
+
+
+    // Split the wakeUpTime string into hours and minutes
+    const [hours, minutes] = wakeUpTime.split(":");
+    // Create a new Date object with the current date and the specified wake-up time
+    const userWakeUpTime = new Date();
+    userWakeUpTime.setHours(parseInt(hours));
+    userWakeUpTime.setMinutes(parseInt(minutes));
+    console.log("User wake up time ", userWakeUpTime);
 
     // Compare the current time with the user's wake-up time
-    if( currentTime.getHours()-6 == userWakeUpTime.getHours() && currentTime.getMinutes() === userWakeUpTime.getMinutes()) {
+    if( currentTime.getHours() == userWakeUpTime.getHours() && currentTime.getMinutes() === userWakeUpTime.getMinutes()) {
         // It's time to wake up, trigger your wake-up function here
         console.log("It's time to wake up!");
         ctx.reply("It's time to Wake Up!! \n\n  Are You Awake?", { reply_markup: inlineKeyboard,});
@@ -35,9 +41,9 @@ const userWakeUpTime = new Date(savedUserWakeUpTime);
        
     }
     else{
-        console.log("it is not the time for: ", ctx.session.wakeUpTime)
+        console.log("it is not the time for: ", wakeUpTime)
 
-        console.log("current time:", currentTime.getHours()-6,":", currentTime.getMinutes() ,"saved time:  ",userWakeUpTime.getHours(), ":", userWakeUpTime.getMinutes());
+        console.log("current time:", currentTime.getHours(),":", currentTime.getMinutes() ,"saved time:  ",userWakeUpTime.getHours(), ":", userWakeUpTime.getMinutes());
     }
 }
 
