@@ -19,6 +19,8 @@ bot.use(session({ initial: () => ({
     pointsEarned: 10, // Points Earned, initially 0
     successfulWakeUps: 0, // Successful Wake-Ups
     missedWakeUps: 0, // Missed Wake-Ups
+    awake: false, // a wakeup flag
+
   }) }));
 
 
