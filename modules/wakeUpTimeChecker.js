@@ -1,5 +1,7 @@
 const {InlineKeyboard } = require("grammy");
-const askQuestions= require('./askQuestions') // import ask questions function
+const { conversations, createConversation } = require("@grammyjs/conversations");
+
+const {askQuestions}= require('./askQuestions') // import ask questions conversation
 
 const inlineKeyboard = new InlineKeyboard()
   .text("Yes!", "AskQuestions");
@@ -8,26 +10,28 @@ const inlineKeyboard = new InlineKeyboard()
 
 function checkAndTriggerWakeUp(ctx, bot) {
 
+        // Install the conversations plugin.
+  bot.use(conversations());
+  
+  // Create conversation handlers
+  bot.use(createConversation(askQuestions));
+
      /////// call back query
-     bot.callbackQuery('AskQuestions', (ctx) => {
-        console.log("inside AskQuestions");
+     bot.callbackQuery('AskQuestions', async (ctx) => {
+        // console.log("inside AskQuestions");
         ctx.reply("here are 5 MATHS questions to prove that you are awake.");
-        askQuestions(ctx, bot);
-
-
+        // askQuestions(ctx, bot);
+        await ctx.conversation.enter("askQuestions");
         });
 
     // Get the current UTC time
     console.log("checkAndTriggerWakeUp started");
 
-
-
-
 // Get the current time as a JavaScript Date object
 const currentTime = new Date();
 
-    const wakeUpTime = "11:51";
-
+    const wakeUpTime = "05:00";
+    const wakeUpDeadline= "05:30"
 
 
     // Split the wakeUpTime string into hours and minutes
@@ -38,6 +42,15 @@ const currentTime = new Date();
     userWakeUpTime.setMinutes(parseInt(minutes));
     console.log("User wake up time ", userWakeUpTime);
 
+    // Split the wakeUpDeadline string into hours and minutes
+    const [deadlineHours, deadlineMinutes] = wakeUpDeadline.split(":");
+    // Create a new Date object with the current date and the specified wake-up deadline
+    const userWakeUpDeadline = new Date();
+    userWakeUpDeadline.setHours(parseInt(deadlineHours));
+    userWakeUpDeadline.setMinutes(parseInt(deadlineMinutes));
+    console.log("User wake-up deadline ", userWakeUpDeadline);
+
+
     // Compare the current time with the user's wake-up time
     if( currentTime.getHours() == userWakeUpTime.getHours() && currentTime.getMinutes() === userWakeUpTime.getMinutes()) {
         // It's time to wake up, trigger your wake-up function here
@@ -45,6 +58,9 @@ const currentTime = new Date();
         ctx.reply("It's time to Wake Up!! \n\n  Are You Awake?", { reply_markup: inlineKeyboard,});
 
        
+    }
+    else if(currentTime.getHours() == userWakeUpDeadline.getHours() && currentTime.getMinutes() === userWakeUpDeadline.getMinutes()){
+        
     }
     else{
         console.log("it is not the time for: ", wakeUpTime)
