@@ -30,8 +30,10 @@ async function askQuestions(conversation, ctx) {
     }
     
     await ctx.reply("Congratulations! You've answered all questions correctly.");
-    conversation.session.pointsEarned +=1;
-    conversation.session.successfulWakeUps +=1;
+    // conversation.session.pointsEarned +=1;
+    // conversation.session.successfulWakeUps +=1;
+    // set wakeUp flag true
+    conversation.session.awake= true;
 
     console.log("points earned: ",conversation.session.pointsEarned);
 }
