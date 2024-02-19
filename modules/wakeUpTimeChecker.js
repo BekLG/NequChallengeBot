@@ -30,8 +30,8 @@ function checkAndTriggerWakeUp(ctx, bot) {
 // Get the current time as a JavaScript Date object
 const currentTime = new Date();
 
-    const wakeUpTime = "05:00";
-    const wakeUpDeadline= "05:30"
+    const wakeUpTime = "13:10";
+    const wakeUpDeadline= "13:11"
 
 
     // Split the wakeUpTime string into hours and minutes
@@ -57,15 +57,28 @@ const currentTime = new Date();
         console.log("It's time to wake up!");
         ctx.reply("It's time to Wake Up!! \n\n  Are You Awake?", { reply_markup: inlineKeyboard,});
 
+        // set wakeUp flag false
+        ctx.session.awake= false;
        
     }
     else if(currentTime.getHours() == userWakeUpDeadline.getHours() && currentTime.getMinutes() === userWakeUpDeadline.getMinutes()){
-        
+        console.log("deadline arrived, wakeup status: ", ctx.session.awake);
+
+        //check if the user have not answered the questions and decrement pointsEarned
+        if (!ctx.session.awake) {
+            ctx.session.pointsEarned -=1;
+            ctx.session.missedWakeUps +=1;
+        }
+        else{
+            ctx.session.pointsEarned +=1;
+            ctx.session.successfulWakeUps +=1;
+        }
     }
     else{
         console.log("it is not the time for: ", wakeUpTime)
 
         console.log("current time:", currentTime.getHours(),":", currentTime.getMinutes() ,"saved time:  ",userWakeUpTime.getHours(), ":", userWakeUpTime.getMinutes());
+        console.log("Status: ", "awake: ", ctx.session.awake,"  points: ",ctx.session.pointsEarned );
     }
 }
 
